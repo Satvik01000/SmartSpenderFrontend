@@ -1,18 +1,19 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import SaveIcon from "@mui/icons-material/Save"; // Import SaveIcon
-import { Box, Button, Card, Container, Typography } from "@mui/material";
-import SignUp from "./Components/SignUp";
+import { BrowserRouter, Route, Routes } from "react-router-dom"; // Import Routes and Route
 import Login from "./Components/Login";
-import Body from "./Components/Body"
+import Homepage from "./Components/Homepage";
 
 const rootElement = ReactDOM.createRoot(document.getElementById("root"));
 
 const AppLayout = () => {
     return (
-        <Login/>
-        // <SignUp/>
-        // <Body/>
+        <BrowserRouter>
+            <Routes>
+                <Route path="/" element={<Login />} />
+                <Route path="/expenses/:userId" element={<Homepage />} /> {/* Route for Homepage */}
+            </Routes>
+        </BrowserRouter>
     );
 };
 
