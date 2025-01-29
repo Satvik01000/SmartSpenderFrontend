@@ -1,67 +1,42 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { Card, Typography, Box } from "@mui/material";
-import axios from "axios";
+import { Button, Container, Box, Card, Typography } from "@mui/material";
+import darkTheme from "../util/darkTheme";
+import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const Homepage = () => {
-  const { userId } = useParams(); // Get userId from the URL
-  const [expenses, setExpenses] = useState([]); // Store expenses data
-  const [totalExpenses, setTotalExpenses] = useState(0); // Total number of expenses
-  const [totalPages, setTotalPages] = useState(0); // Total number of pages
-  const [error, setError] = useState(null); // To handle API errors
+    const { token, logout } = useAuth();
+    const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchExpenses = async () => {
-      try {
-        const response = await axios.get(`http://localhost:8080/expenses/${userId}`, {
-          params: { offset: 0, pageSize: 5, field: "amount" },
-        });
+    useEffect(() => {
+        if (!token) {
+            navigate("/"); // Redirect to login if not authenticated
+        }
+    }, [token, navigate]);
 
-        console.log("API Response:", response.data); // Debug: Log the response
-
-        // Update state based on the API response
-        setExpenses(response.data.content || []); // `content` contains the expense list
-        setTotalExpenses(response.data.totalElements || 0); // Total number of expenses
-        setTotalPages(response.data.totalPages || 0); // Total pages available
-      } catch (error) {
-        console.error("Failed to fetch expenses:", error);
-        setError("Unable to fetch expenses. Please try again later.");
-      }
-    };
-
-    fetchExpenses();
-  }, [userId]); // Re-run if `userId` changes
-
-  return (
-      <Card sx={{ padding: 3, margin: 3 }}>
-        <Typography variant="h4" gutterBottom>
-          Expenses
-        </Typography>
-
-        {error ? (
-            <Typography color="error">{error}</Typography>
-        ) : expenses.length > 0 ? (
-            <Box>
-              {expenses.map((expense) => (
-                  <Box key={expense.id} sx={{ marginBottom: 2 }}>
-                    <Typography variant="body1">
-                      <strong>Spent:</strong> {expense.spentWhere} | <strong>Amount:</strong> ₹{expense.amount}
-                    </Typography>
-                    <Typography variant="body2">
-                      <strong>Category:</strong> {expense.category.title} | <strong>Date:</strong>{" "}
-                      {new Date(expense.date).toLocaleDateString()}
-                    </Typography>
-                  </Box>
-              ))}
-              <Typography variant="body2" sx={{ marginTop: 2 }}>
-                Total Expenses: {totalExpenses} | Total Pages: {totalPages}
-              </Typography>
+    return (
+        <Container theme={darkTheme} sx={{ height: "100vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <Box sx={{
+                backgroundColor: "black",
+                width: "90%",
+                height: "90%",
+                marginLeft: "12%",
+                borderRadius: 5,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "flex-start",
+                flexDirection: "column"
+            }}>
+                <Card raised elevation={10} variant="outlined" sx={{ backgroundColor: "#1e1e1e", color: "white", width: "95%", mt: 5, height: "60%" }}>
+                    <Typography sx={{ ml: 3, mt: 1, fontSize: 20, fontFamily: "Inter" }}>Recent Expenses</Typography>
+                    <hr style={{ width: "98%", display: "flex", alignSelf: "center", justifySelf: "center" }}></hr>
+                    <Button onClick={logout} variant="contained" sx={{ mt: 3, backgroundColor: "#d32f2f" }}>
+                        Logout
+                    </Button>
+                </Card>
             </Box>
-        ) : (
-            <Typography>No expenses found for this user.</Typography>
-        )}
-      </Card>
-  );
+        </Container>
+    );
 };
 
 export default Homepage;
