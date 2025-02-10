@@ -12,6 +12,7 @@ const SignUp = () => {
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [salary, setSalary] = useState("");
     const [error, setError] = useState("");
 
     const handleSignUp = async () => {
@@ -21,6 +22,7 @@ const SignUp = () => {
                 username,
                 email,
                 password,
+                salary
             });
 
             if (signUpResponse.status === 201) {
@@ -110,6 +112,19 @@ const SignUp = () => {
                             fullWidth
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
+                            sx={{ mb: 3 }}
+                        />
+                        <TextField
+                            variant="outlined"
+                            required
+                            autoComplete="off"
+                            id="salary"
+                            name="salary"
+                            label="Salary or Pocket Money"
+                            type="salary"
+                            fullWidth
+                            value={salary}
+                            onChange={(e) => setSalary(e.target.value)}
                             sx={{ mb: 3 }}
                         />
                         {error && <Typography color="error">{error}</Typography>}

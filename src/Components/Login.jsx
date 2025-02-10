@@ -16,7 +16,7 @@ const Login = () => {
         try {
             const response = await axios.post(BaseUrl + "/user/login", {
                 username,
-                password,
+                password
             });
 
             if (response.status === 200) {
@@ -52,6 +52,14 @@ const Login = () => {
                             autoFocus
                             fullWidth
                             sx={{ mb: 3, mt: 3, borderRadius: 3 }}
+                            slotProps={{
+                                input: {
+                                    style: { borderRadius: 10 }, // Applies to the input element
+                                },
+                                // root: {
+                                //     sx: { borderRadius: 20 }, // Applies to the outer container
+                                // },
+                            }}
                         />
                         <TextField
                             variant="outlined"
@@ -65,7 +73,16 @@ const Login = () => {
                             onChange={(e) => setPassword(e.target.value)}
                             fullWidth
                             sx={{ mb: 3 }}
+                            slotProps={{
+                                input: {
+                                    style: { borderRadius: 10 }, // Applies to the input element
+                                },
+                                // root: {
+                                //     sx: { borderRadius: 20 }, // Applies to the outer container
+                                // },
+                            }}
                         />
+
                         {error && <Typography color="error">{error}</Typography>}
                         <Button
                             variant="contained"
