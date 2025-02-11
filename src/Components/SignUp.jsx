@@ -1,4 +1,4 @@
-import { Box, Button, Card, Container, TextField, ThemeProvider, Typography } from "@mui/material";
+import { Box, Button, Card, Container, TextField, ThemeProvider, Typography, LinearProgress } from "@mui/material";
 import Logo from "../util/Logo.png";
 import darkTheme from "../util/darkTheme";
 import { Link, useNavigate } from "react-router-dom";
@@ -14,8 +14,10 @@ const SignUp = () => {
     const [password, setPassword] = useState("");
     const [salary, setSalary] = useState("");
     const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
 
     const handleSignUp = async () => {
+        setLoading(true); // Start loading
         try {
             const signUpResponse = await axios.post(`${BaseUrl}/user/sign-up`, {
                 name,
@@ -30,6 +32,8 @@ const SignUp = () => {
             }
         } catch (err) {
             setError(err.response?.data?.message || "An error occurred. Please try again.");
+        } finally {
+            setLoading(false); // Stop loading
         }
     };
 
@@ -56,95 +60,103 @@ const SignUp = () => {
                             maxWidth: "50vw",
                             borderRadius: 7,
                             backgroundColor: "black",
+                            position: "relative"
                         }}
                     >
-                        <Box sx={{ display: "flex", alignItems: "center", alignSelf: "flex-start", mb: 3 }}>
-                            <img src={Logo} alt="Logo" style={{ width: 90, height: 80, marginRight: 8 }} />
-                            <Typography variant="h3" sx={{ mt: 2 }}>
-                                Make an account and Spend Smart
+                        {/* Loading bar at the top of the signup box */}
+                        {loading && <LinearProgress sx={{ position: "absolute", top: 0, left: 0, width: "100%", borderRadius: "7px 7px 0 0" }} />}
+
+                        {/* SignUp form container - apply blur when loading */}
+                        <Box sx={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", filter: loading ? "blur(3px)" : "none", pointerEvents: loading ? "none" : "auto", transition: "filter 0.3s ease-in-out" }}>
+                            <Box sx={{ display: "flex", alignItems: "center", alignSelf: "flex-start", mb: 3 }}>
+                                <img src={Logo} alt="Logo" style={{ width: 90, height: 80, marginRight: 8 }} />
+                                <Typography variant="h3" sx={{ mt: 2 }}>
+                                    Make an account and Spend Smart
+                                </Typography>
+                            </Box>
+                            <TextField
+                                variant="outlined"
+                                required
+                                autoComplete="off"
+                                id="name"
+                                name="name"
+                                label="Name"
+                                autoFocus
+                                fullWidth
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                                sx={{ mt: 3 }}
+                            />
+                            <TextField
+                                variant="outlined"
+                                required
+                                autoComplete="username"
+                                id="username"
+                                name="username"
+                                label="Username"
+                                fullWidth
+                                value={username}
+                                onChange={(e) => setUsername(e.target.value)}
+                                sx={{ mt: 3 }}
+                            />
+                            <TextField
+                                variant="outlined"
+                                required
+                                autoComplete="off"
+                                id="email"
+                                name="email"
+                                label="Email"
+                                fullWidth
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                sx={{ mb: 3, mt: 3 }}
+                            />
+                            <TextField
+                                variant="outlined"
+                                required
+                                autoComplete="off"
+                                id="password"
+                                name="password"
+                                label="Password"
+                                type="password"
+                                fullWidth
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                sx={{ mb: 3 }}
+                            />
+                            <TextField
+                                variant="outlined"
+                                required
+                                autoComplete="off"
+                                id="salary"
+                                name="salary"
+                                label="Salary or Pocket Money"
+                                type="number"
+                                fullWidth
+                                value={salary}
+                                onChange={(e) => setSalary(e.target.value)}
+                                sx={{ mb: 3 }}
+                            />
+                            {error && <Typography color="error">{error}</Typography>}
+                            <Button
+                                variant="contained"
+                                sx={{
+                                    backgroundColor: "#0187e6",
+                                    maxWidth: "70%",
+                                    width: "40vh",
+                                    borderRadius: 3,
+                                    color: "white",
+                                }}
+                                onClick={handleSignUp}
+                                disabled={loading}
+                            >
+                                {loading ? "Creating Account..." : "Sign Up"}
+                            </Button>
+                            <Typography variant="body2" sx={{ mt: 2 }}>
+                                Already have an account?{" "}
+                                <Link to="/" style={{ color: "#0187e6" }}>Log In</Link>
                             </Typography>
                         </Box>
-                        <TextField
-                            variant="outlined"
-                            required
-                            autoComplete="off"
-                            id="name"
-                            name="name"
-                            label="Name"
-                            autoFocus
-                            fullWidth
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                            sx={{ mt: 3 }}
-                        />
-                        <TextField
-                            variant="outlined"
-                            required
-                            autoComplete="username"
-                            id="username"
-                            name="username"
-                            label="Username"
-                            fullWidth
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
-                            sx={{ mt: 3 }}
-                        />
-                        <TextField
-                            variant="outlined"
-                            required
-                            autoComplete="off"
-                            id="email"
-                            name="email"
-                            label="Email"
-                            fullWidth
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            sx={{ mb: 3, mt: 3 }}
-                        />
-                        <TextField
-                            variant="outlined"
-                            required
-                            autoComplete="off"
-                            id="password"
-                            name="password"
-                            label="Password"
-                            type="password"
-                            fullWidth
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            sx={{ mb: 3 }}
-                        />
-                        <TextField
-                            variant="outlined"
-                            required
-                            autoComplete="off"
-                            id="salary"
-                            name="salary"
-                            label="Salary or Pocket Money"
-                            type="salary"
-                            fullWidth
-                            value={salary}
-                            onChange={(e) => setSalary(e.target.value)}
-                            sx={{ mb: 3 }}
-                        />
-                        {error && <Typography color="error">{error}</Typography>}
-                        <Button
-                            variant="contained"
-                            sx={{
-                                backgroundColor: "#0187e6",
-                                maxWidth: "70%",
-                                width: "40vh",
-                                borderRadius: 3,
-                                color: "white",
-                            }}
-                            onClick={handleSignUp}
-                        >
-                            Sign Up
-                        </Button>
-                        <Typography variant="body2" sx={{ mt: 2 }}>
-                            Already have an account?{" "}
-                            <Link to="/" style={{ color: "#0187e6" }}>Log In</Link>
-                        </Typography>
                     </Card>
                 </Box>
             </Container>

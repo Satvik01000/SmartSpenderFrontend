@@ -12,7 +12,6 @@ const ExpenseTable = ({ expenses }) => {
                     <TableHead>
                         <TableRow>
                             <TableCell sx={{ color: "black", backgroundColor: "yellow" }}>Date</TableCell>
-                            <TableCell sx={{ color: "black", backgroundColor: "yellow" }}>Type</TableCell>
                             <TableCell sx={{ color: "black", backgroundColor: "yellow" }}>Amount (₹)</TableCell>
                             <TableCell sx={{ color: "black", backgroundColor: "yellow" }}>Category</TableCell>
                             <TableCell sx={{ color: "black", backgroundColor: "yellow" }}>Where</TableCell>
@@ -23,8 +22,7 @@ const ExpenseTable = ({ expenses }) => {
                             expenses.map((expense, index) => (
                                 <TableRow key={index}>
                                     <TableCell sx={{ color: "white" }}>{new Date(expense.date).toLocaleDateString()}</TableCell>
-                                    <TableCell sx={{ color: "white" }}>{expense.type}</TableCell>
-                                    <TableCell sx={{ color: "white" }}>{expense.amount}</TableCell>
+                                    <TableCell sx={{ color: expense.type === "debited" ? "#ff5d5d" : "green" }}>{expense.amount}</TableCell>
                                     <TableCell sx={{ color: "white" }}>{expense.category.title}</TableCell>
                                     <TableCell sx={{ color: "white" }}>{expense.spentWhere}</TableCell>
                                 </TableRow>
