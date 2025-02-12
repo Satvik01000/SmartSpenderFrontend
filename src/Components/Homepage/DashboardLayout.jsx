@@ -33,7 +33,7 @@ const DashboardLayout = ({ children }) => {
                         color: "white",
                         width: "95%",
                         mt: 5,
-                        height: "70%",
+                        height: "80vh",
                         overflow: "auto",
                         padding: 2,
                     }}

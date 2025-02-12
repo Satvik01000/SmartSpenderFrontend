@@ -6,6 +6,9 @@ import BaseUrl from "../../util/BaseUrl";
 import DashboardLayout from "./DashboardLayout";
 import ExpenseTable from "./ExpenseTable";
 import LogoutButton from "./LogoutButton";
+import "../../index.css";
+import Heading from "./Heading";
+import UserBalanceMostExpensiveGrid from "./UserBalanceMostExpensiveGrid/UserBalanceMostExpensiveGrid"; // ✅ Use Grid2
 
 const Homepage = () => {
     const navigate = useNavigate();
@@ -16,14 +19,10 @@ const Homepage = () => {
             try {
                 const token = localStorage.getItem("token");
                 if (!token) {
-                    console.error("No token found, redirecting to login.");
                     navigate("/");
                     return;
                 }
 
-                console.log("Stored Token:", token);
-
-                // Validate token
                 const validateResponse = await axios.post(
                     `${BaseUrl}/user/validate-token`,
                     {},
@@ -35,17 +34,12 @@ const Homepage = () => {
                     }
                 );
 
-                console.log("Token validation response:", validateResponse.data);
-
                 if (!validateResponse.data) {
                     throw new Error("Invalid Token");
                 }
 
-                // Decode token
                 const username = jwtDecode(token).sub;
-                console.log("Extracted Username:", username);
 
-                // Fetch user ID
                 const userResponse = await axios.get(`${BaseUrl}/user/${username}`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -53,10 +47,8 @@ const Homepage = () => {
                     },
                 });
 
-                console.log("User API Response:", userResponse.data);
-                const userId = userResponse.data; // Ensure this is the actual user ID
+                const userId = userResponse.data;
 
-                // Fetch expenses
                 const expenseResponse = await axios.get(`${BaseUrl}/expenses/${userId}`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -69,17 +61,13 @@ const Homepage = () => {
                     },
                 });
 
-                console.log("Expenses API Response:", expenseResponse.data);
-
                 const fetchedExpenses = expenseResponse.data?.content;
                 if (Array.isArray(fetchedExpenses)) {
                     setExpenses(fetchedExpenses);
                 } else {
-                    console.error("Fetched expenses is not an array:", fetchedExpenses);
                     setExpenses([]);
                 }
             } catch (error) {
-                console.error("Error during token validation or fetching expenses:", error);
                 localStorage.removeItem("token");
                 navigate("/");
             }
@@ -90,6 +78,8 @@ const Homepage = () => {
 
     return (
         <DashboardLayout>
+            <Heading />
+            <UserBalanceMostExpensiveGrid/>
             <ExpenseTable expenses={expenses} />
             <LogoutButton />
         </DashboardLayout>
