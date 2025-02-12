@@ -5,14 +5,16 @@ import { jwtDecode } from "jwt-decode";
 import BaseUrl from "../../util/BaseUrl";
 import DashboardLayout from "./DashboardLayout";
 import ExpenseTable from "./ExpenseTable";
-import LogoutButton from "./LogoutButton";
 import "../../index.css";
 import Heading from "./Heading";
 import UserBalanceMostExpensiveGrid from "./UserBalanceMostExpensiveGrid/UserBalanceMostExpensiveGrid";
+import SeeTransactions from "./SeeTransactions";
+import { Button } from "@mui/material";
 
 const Homepage = () => {
     const navigate = useNavigate();
     const [expenses, setExpenses] = useState([]);
+    const [showAllTransactions, setShowAllTransactions] = useState(false);
 
     useEffect(() => {
         const validateTokenAndFetchData = async () => {
@@ -78,10 +80,30 @@ const Homepage = () => {
 
     return (
         <DashboardLayout>
-            <Heading />
-            <UserBalanceMostExpensiveGrid/>
-            <ExpenseTable expenses={expenses} />
-            <LogoutButton />
+
+            {showAllTransactions ? (
+                <SeeTransactions />
+            ) : (
+                <>
+                    <Heading />
+                    <UserBalanceMostExpensiveGrid />
+                    <ExpenseTable expenses={expenses} />
+                </>
+            )}
+
+            <Button
+                variant="contained"
+                onClick={() => setShowAllTransactions((prev) => !prev)}
+                sx={{
+                    mt: 3,
+                    mr:15,
+                    display: "flex",
+                    justifySelf: "flex-end",
+                    borderRadius:2
+                }}
+            >
+                {showAllTransactions ? "Show Recent Expenses" : "See All Transactions"}
+            </Button>
         </DashboardLayout>
     );
 };

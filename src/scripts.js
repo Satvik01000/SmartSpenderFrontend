@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./Components/Login";
 import Homepage from "./Components/Homepage/Homepage";
 import SignUp from "./Components/SignUp";
+import SeeTransactions from "./Components/Homepage/SeeTransactions";
 
 const Scripts = () => {
     return (
@@ -12,6 +13,7 @@ const Scripts = () => {
                 <Route path="/" element={<Login/>}/>
                 <Route path="/homepage" element={<Homepage/>}/>
                 <Route path="/sign-up" element={<SignUp/>}/>
+                <Route path="/transactions" element={<SeeTransactions/>}/>
             </Routes>
         </Router>
     );

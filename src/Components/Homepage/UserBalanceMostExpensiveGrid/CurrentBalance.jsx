@@ -16,7 +16,6 @@ const CurrentBalance = () => {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 const userId = userIdResponse.data;
-                console.log("User Id is : " + userId);
 
                 const response = await axios.get(`${BaseUrl}/report/balance`, {
                     params: { userId },
