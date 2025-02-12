@@ -1,5 +1,6 @@
 import React from "react";
 import { Container, Box, Card } from "@mui/material";
+import LogoutButton from "./LogoutButton";
 
 const DashboardLayout = ({ children }) => {
     return (
@@ -11,6 +12,7 @@ const DashboardLayout = ({ children }) => {
                 justifyContent: "center",
             }}
         >
+            <LogoutButton/>
             <Box
                 sx={{
                     backgroundColor: "black",
