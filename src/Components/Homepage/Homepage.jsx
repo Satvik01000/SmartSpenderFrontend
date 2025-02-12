@@ -8,7 +8,7 @@ import ExpenseTable from "./ExpenseTable";
 import LogoutButton from "./LogoutButton";
 import "../../index.css";
 import Heading from "./Heading";
-import UserBalanceMostExpensiveGrid from "./UserBalanceMostExpensiveGrid/UserBalanceMostExpensiveGrid"; // ✅ Use Grid2
+import UserBalanceMostExpensiveGrid from "./UserBalanceMostExpensiveGrid/UserBalanceMostExpensiveGrid";
 
 const Homepage = () => {
     const navigate = useNavigate();

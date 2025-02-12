@@ -16,6 +16,7 @@ const ExpenseTable = ({ expenses }) => {
                             <TableCell sx={{ color: "black", backgroundColor: "yellow", fontFamily: "Diagond", fontSize:23 }}>Amount (₹)</TableCell>
                             <TableCell sx={{ color: "black", backgroundColor: "yellow", fontFamily: "Diagond", fontSize:23 }}>Category</TableCell>
                             <TableCell sx={{ color: "black", backgroundColor: "yellow", fontFamily: "Diagond", fontSize:23 }}>Where</TableCell>
+                            <TableCell sx={{ color: "black", backgroundColor: "yellow", fontFamily: "Diagond", fontSize:23 }}>Description</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -26,6 +27,7 @@ const ExpenseTable = ({ expenses }) => {
                                     <TableCell sx={{ fontSize:16, color: expense.type === "debited" ? "#ff5d5d" : "green", fontFamily: "Diagond" }}>{expense.amount}</TableCell>
                                     <TableCell sx={{ fontSize:16, color: "white", fontFamily: "Diagond" }}>{expense.category.title}</TableCell>
                                     <TableCell sx={{ fontSize:16, color: "white", fontFamily: "Diagond" }}>{expense.spentWhere}</TableCell>
+                                    <TableCell sx={{ fontSize:16, color: "white", fontFamily: "Diagond" }}>{expense.description}</TableCell>
                                 </TableRow>
                             ))
                         ) : (
