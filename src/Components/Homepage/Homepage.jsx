@@ -9,12 +9,14 @@ import "../../index.css";
 import Heading from "./Heading";
 import UserBalanceMostExpensiveGrid from "./UserBalanceMostExpensiveGrid/UserBalanceMostExpensiveGrid";
 import SeeTransactions from "./SeeTransactions";
-import { Button } from "@mui/material";
+import AddExpense from "./AddExpense";
+import { Box, Button } from "@mui/material";
 
 const Homepage = () => {
     const navigate = useNavigate();
     const [expenses, setExpenses] = useState([]);
     const [showAllTransactions, setShowAllTransactions] = useState(false);
+    const [showAddExpenseModal, setShowAddExpenseModal] = useState(false);
 
     useEffect(() => {
         const validateTokenAndFetchData = async () => {
@@ -80,7 +82,6 @@ const Homepage = () => {
 
     return (
         <DashboardLayout>
-
             {showAllTransactions ? (
                 <SeeTransactions />
             ) : (
@@ -90,20 +91,36 @@ const Homepage = () => {
                     <ExpenseTable expenses={expenses} />
                 </>
             )}
-
-            <Button
-                variant="contained"
-                onClick={() => setShowAllTransactions((prev) => !prev)}
-                sx={{
-                    mt: 3,
-                    mr:15,
-                    display: "flex",
-                    justifySelf: "flex-end",
-                    borderRadius:2
-                }}
-            >
-                {showAllTransactions ? "Show Recent Expenses" : "See All Transactions"}
-            </Button>
+            <Box sx={{display:"flex", flexDirection:"row", alignContent:"center", justifyContent:"center"}}>
+                <Button
+                    variant="contained"
+                    onClick={() => setShowAllTransactions((prev) => !prev)}
+                    sx={{
+                        mt: 3,
+                        mr: 15,
+                        ml:15,
+                        display: "flex",
+                        justifySelf: "flex-end",
+                        borderRadius: 2,
+                    }}
+                >
+                    {showAllTransactions ? "Show Recent Expenses" : "See All Transactions"}
+                </Button>
+                <Button
+                    variant="contained"
+                    onClick={() => setShowAddExpenseModal(true)}
+                    sx={{
+                        mt: 3,
+                        mr: 15,
+                        display: "flex",
+                        justifySelf: "flex-end",
+                        borderRadius: 2,
+                    }}
+                >
+                    Add Expense
+                </Button>
+            </Box>
+            <AddExpense open={showAddExpenseModal} setOpen={setShowAddExpenseModal} />
         </DashboardLayout>
     );
 };
