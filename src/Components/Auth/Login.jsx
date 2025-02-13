@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import { Box, Button, Card, Container, TextField, ThemeProvider, Typography, LinearProgress } from "@mui/material";
-import darkTheme from "../util/darkTheme";
-import Logo from "../util/Logo.png";
-import BaseUrl from "../util/BaseUrl";
+import darkTheme from "../../util/darkTheme";
+import Logo from "../../util/Logo.png";
+import BaseUrl from "../../util/BaseUrl";
 
 const Login = () => {
     const navigate = useNavigate();
