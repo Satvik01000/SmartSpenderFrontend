@@ -1,10 +1,10 @@
 import { Box, Button, Card, Container, TextField, ThemeProvider, Typography, LinearProgress } from "@mui/material";
-import Logo from "../util/Logo.png";
-import darkTheme from "../util/darkTheme";
+import Logo from "../../util/Logo.png";
+import darkTheme from "../../util/darkTheme";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
-import BaseUrl from "../util/BaseUrl";
+import BaseUrl from "../../util/BaseUrl";
 
 const SignUp = () => {
     const navigate = useNavigate();

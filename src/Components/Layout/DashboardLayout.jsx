@@ -1,6 +1,6 @@
 import React from "react";
 import { Container, Box, Card } from "@mui/material";
-import LogoutButton from "./LogoutButton";
+import LogoutButton from "../Auth/LogoutButton";
 
 const DashboardLayout = ({ children }) => {
     return (
