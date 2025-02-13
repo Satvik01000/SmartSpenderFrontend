@@ -32,10 +32,12 @@ const DashboardLayout = ({ children }) => {
                     sx={{
                         backgroundColor: "#1e1e1e",
                         color: "white",
-                        width: "90%",
-                        height: "90%",
+                        width: "97%",
+                        height: "100%",
                         borderRadius: 5,
                         padding: 3,
+                        overflowY: "auto", // Enables vertical scrolling
+                        // maxHeight: "85vh", // Prevents excessive height
                     }}
                 >
                     {children}
