@@ -1,38 +1,69 @@
 import React from "react";
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography } from "@mui/material";
-import "../../index.css"
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    Paper,
+    Typography,
+    Chip
+} from "@mui/material";
 
 const ExpenseTable = ({ expenses }) => {
     return (
         <>
-            <Typography sx={{ ml: 3, mt: 1, fontSize: 24, fontFamily: "Diagond" }}>
+            <Typography sx={{ ml: 3, mt: 2, fontSize: 24, fontWeight: "bold", color: "#ffffff" }}>
                 Recent Expenses
             </Typography>
-            <TableContainer component={Paper} sx={{ backgroundColor: "#2e2e2e" }}>
+            <TableContainer component={Paper} sx={{ backgroundColor: "#2e2e2e", borderRadius: 2, overflow: "hidden", mt: 2 }}>
                 <Table>
                     <TableHead>
-                        <TableRow>
-                            <TableCell sx={{ color: "black", backgroundColor: "yellow", fontFamily: "Diagond", fontSize:23 }}>Date</TableCell>
-                            <TableCell sx={{ color: "black", backgroundColor: "yellow", fontFamily: "Diagond", fontSize:23 }}>Amount (₹)</TableCell>
-                            <TableCell sx={{ color: "black", backgroundColor: "yellow", fontFamily: "Diagond", fontSize:23 }}>Category</TableCell>
-                            <TableCell sx={{ color: "black", backgroundColor: "yellow", fontFamily: "Diagond", fontSize:23 }}>Where</TableCell>
-                            <TableCell sx={{ color: "black", backgroundColor: "yellow", fontFamily: "Diagond", fontSize:23 }}>Description</TableCell>
+                        <TableRow sx={{ backgroundColor: "rgba(255,145,0,0.94)" }}>
+                            {['Date', 'Amount (₹)', 'Category', 'Where', 'Description'].map((header) => (
+                                <TableCell key={header} sx={{ color: "black", fontSize: 18, fontWeight: "bold" }}>
+                                    {header}
+                                </TableCell>
+                            ))}
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {expenses.length > 0 ? (
                             expenses.map((expense, index) => (
-                                <TableRow key={index}>
-                                    <TableCell sx={{ fontSize:16, color: "white", fontFamily: "Diagond" }}>{new Date(expense.date).toLocaleDateString()}</TableCell>
-                                    <TableCell sx={{ fontSize:16, color: expense.type === "debited" ? "#ff5d5d" : "green", fontFamily: "Diagond" }}>{expense.amount}</TableCell>
-                                    <TableCell sx={{ fontSize:16, color: "white", fontFamily: "Diagond" }}>{expense.category.title}</TableCell>
-                                    <TableCell sx={{ fontSize:16, color: "white", fontFamily: "Diagond" }}>{expense.spentWhere}</TableCell>
-                                    <TableCell sx={{ fontSize:16, color: "white", fontFamily: "Diagond" }}>{expense.description}</TableCell>
+                                <TableRow
+                                    key={index}
+                                    sx={{
+                                        backgroundColor: index % 2 === 0 ? "#3a3a3a" : "#2e2e2e",
+                                        '&:hover': { backgroundColor: "#505050" }
+                                    }}
+                                >
+                                    <TableCell sx={{ color: "white" }}>
+                                        {new Date(expense.date).toLocaleDateString()}
+                                    </TableCell>
+                                    <TableCell>
+                                        <Chip
+                                            label={`₹${expense.amount}`}
+                                            sx={{
+                                                backgroundColor: expense.type === "debited" ? "#ff5d5d" : "#4caf50",
+                                                color: "white", fontWeight: "bold"
+                                            }}
+                                        />
+                                    </TableCell>
+                                    <TableCell sx={{ color: "white", fontWeight: "bold" }}>
+                                        {expense.category.title}
+                                    </TableCell>
+                                    <TableCell sx={{ color: "white" }}>
+                                        {expense.spentWhere}
+                                    </TableCell>
+                                    <TableCell sx={{ color: "white" }}>
+                                        {expense.description}
+                                    </TableCell>
                                 </TableRow>
                             ))
                         ) : (
                             <TableRow>
-                                <TableCell colSpan={5} sx={{ color: "white", textAlign: "center" }}>
+                                <TableCell colSpan={5} sx={{ color: "white", textAlign: "center", fontStyle: "italic" }}>
                                     No expenses found.
                                 </TableCell>
                             </TableRow>

@@ -3,10 +3,3 @@
 #root{
     background-color: #1e1e1e;
 }
-
-@font-face {
-    font-family: 'Diagond';
-    src: url('./assets/fonts/Diagond-Bold.otf') format('opentype');
-    font-weight: bold;
-    font-style: normal;
-}

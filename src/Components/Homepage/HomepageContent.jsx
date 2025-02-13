@@ -1,5 +1,5 @@
 import Heading from "../../common/Heading";
-import UserBalanceMostExpensiveGrid from "./UserBalanceMostExpensiveGrid/UserBalanceMostExpensiveGrid";
+import UserBalanceMostExpensiveGrid from "../Layout/UserBalanceMostExpensiveGrid/UserBalanceMostExpensiveGrid";
 import ExpenseTable from "./ExpenseTable";
 import SeeTransactions from "./SeeTransactions";
 
