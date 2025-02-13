@@ -6,7 +6,7 @@ import {Card, Typography} from "@mui/material";
 
 const MostExpensivePurchase = () =>{
     const [cost, setCost] = useState(0);
-
+    const [description, setDescription]=useState("");
     useEffect(() => {
         const handleMostExpensivePurchase = async ()=>{
             const token = localStorage.getItem("token");
@@ -20,15 +20,21 @@ const MostExpensivePurchase = () =>{
                 params:{userId},
                 headers:{Authorization: `Bearer ${token}`}
             });
-            setCost(purchaseResponse.data);
+            setCost(purchaseResponse.data.amount);
+            setDescription(purchaseResponse.data.description);
         }
         handleMostExpensivePurchase();
     }, []);
 
     return(
-            <Typography sx={{fontFamily: "'Diagond', sans-serif", color:"white", fontSize:20}}>
-                {cost}
+        <>
+            <Typography sx={{fontFamily: "'Archivo Black', sans-serif", color:"white", fontSize:20}}>
+                ₹ {cost}
             </Typography>
+            <Typography sx={{color:"white", fontSize:16}}>
+                {description}
+            </Typography>
+        </>
     );
 };
 

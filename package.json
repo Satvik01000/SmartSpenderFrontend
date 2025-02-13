@@ -14,6 +14,7 @@
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
+    "@fontsource/archivo-black": "^5.1.1",
     "@fontsource/audiowide": "^5.1.1",
     "@fontsource/cinzel": "^5.1.1",
     "@fontsource/dancing-script": "^5.1.1",

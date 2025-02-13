@@ -31,8 +31,8 @@ const CurrentBalance = () => {
     }, []);
 
     return (
-        <Typography sx={{fontFamily: "'Diagond', sans-serif", color:"white", fontSize:20 }}>
-            {currentBalance}
+        <Typography sx={{fontFamily: "'Archivo Black', sans-serif", color:"white", fontSize:20 }}>
+            ₹ {currentBalance}
         </Typography>
     );
 };

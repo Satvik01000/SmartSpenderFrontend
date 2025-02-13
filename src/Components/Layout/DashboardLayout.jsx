@@ -1,29 +1,28 @@
 import React from "react";
-import { Container, Box, Card } from "@mui/material";
-import LogoutButton from "../Auth/LogoutButton";
+import { Box, Card } from "@mui/material";
+import SideBar from "./SideBar";
 
 const DashboardLayout = ({ children }) => {
     return (
-        <Container
+        <Box
             sx={{
-                height: "100vh",
                 display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
+                height: "100vh",
+                width: "100vw",
+                backgroundColor: "black",
             }}
         >
-            <LogoutButton/>
+            {/* Sidebar on the extreme left */}
+            <SideBar />
+
+            {/* Main Content Area */}
             <Box
                 sx={{
-                    backgroundColor: "black",
-                    width: "90%",
-                    height: "90%",
-                    marginLeft: "12%",
-                    borderRadius: 5,
+                    flexGrow: 1,
                     display: "flex",
                     alignItems: "center",
-                    justifyContent: "flex-start",
-                    flexDirection: "column",
+                    justifyContent: "center",
+                    padding: 3,
                 }}
             >
                 <Card
@@ -33,17 +32,18 @@ const DashboardLayout = ({ children }) => {
                     sx={{
                         backgroundColor: "#1e1e1e",
                         color: "white",
-                        width: "95%",
-                        mt: 5,
-                        height: "80vh",
-                        overflow: "auto",
-                        padding: 2,
+                        width: "97%",
+                        height: "100%",
+                        borderRadius: 5,
+                        padding: 3,
+                        overflowY: "auto", // Enables vertical scrolling
+                        // maxHeight: "85vh", // Prevents excessive height
                     }}
                 >
                     {children}
                 </Card>
             </Box>
-        </Container>
+        </Box>
     );
 };
 
