@@ -1,19 +1,11 @@
 import { useState, useEffect } from "react";
-import {
-    Box,
-    Button,
-    Modal,
-    TextField,
-    Typography,
-    Autocomplete,
-    ThemeProvider
-} from "@mui/material";
+import { Box, Button, Modal, TextField, Typography, Autocomplete, ThemeProvider } from "@mui/material";
 import axios from "axios";
 import BaseUrl from "../../util/BaseUrl";
-import { jwtDecode } from "jwt-decode";
-import darkTheme from "../../util/darkTheme"; // Import your dark theme
+import {jwtDecode} from "jwt-decode";
+import darkTheme from "../../util/darkTheme";
 
-const AddExpense = ({ open, setOpen, updateBalance }) => {
+const AddExpense = ({ open, setOpen}) => {
     const [expenseData, setExpenseData] = useState({
         amount: "",
         spentWhere: "",
@@ -34,6 +26,7 @@ const AddExpense = ({ open, setOpen, updateBalance }) => {
                 });
                 if (response.data) {
                     setCategories(response.data.map(cat => cat.title));
+                    console.log("Fetched categories:", response.data.map(cat => cat.title));
                 }
             } catch (error) {
                 console.error("Error fetching categories", error);
@@ -86,7 +79,6 @@ const AddExpense = ({ open, setOpen, updateBalance }) => {
             setConfirmModal(false);
             setOpen(false);
 
-            updateBalance(); // Update balance after adding expense
         } catch (error) {
             console.error("Error adding expense", error);
         }
@@ -135,14 +127,21 @@ const AddExpense = ({ open, setOpen, updateBalance }) => {
                         freeSolo
                         options={categories}
                         loading={loading}
-                        value={expenseData.category}
-                        onChange={(event, newValue) => {
-                            setExpenseData({ ...expenseData, category: newValue });
+                        value={expenseData.category || ""}
+                        onInputChange={(event, newValue) => {
+                            console.log("Typed category:", newValue);
+                            setExpenseData((prev) => ({ ...prev, category: newValue }));
                         }}
+                        onChange={(event, newValue) => {
+                            console.log("Selected category:", newValue);
+                            setExpenseData((prev) => ({ ...prev, category: newValue || "" }));
+                        }}
+                        getOptionLabel={(option) => option || ""}
                         renderInput={(params) => (
                             <TextField {...params} label="Category" variant="outlined" />
                         )}
                     />
+
 
                     <TextField
                         label="Description"
