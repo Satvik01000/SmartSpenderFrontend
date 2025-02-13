@@ -1,19 +1,11 @@
 import { useState, useEffect } from "react";
-import {
-    Box,
-    Button,
-    Modal,
-    TextField,
-    Typography,
-    Autocomplete,
-    ThemeProvider
-} from "@mui/material";
+import { Box, Button, Modal, TextField, Typography, Autocomplete, ThemeProvider } from "@mui/material";
 import axios from "axios";
 import BaseUrl from "../../util/BaseUrl";
-import { jwtDecode } from "jwt-decode";
-import darkTheme from "../../util/darkTheme"; // Import your dark theme
+import {jwtDecode} from "jwt-decode";
+import darkTheme from "../../util/darkTheme";
 
-const AddExpense = ({ open, setOpen, updateBalance }) => {
+const AddExpense = ({ open, setOpen, updateBalance, handleUpdate }) => {
     const [expenseData, setExpenseData] = useState({
         amount: "",
         spentWhere: "",
@@ -34,6 +26,7 @@ const AddExpense = ({ open, setOpen, updateBalance }) => {
                 });
                 if (response.data) {
                     setCategories(response.data.map(cat => cat.title));
+                    console.log("Fetched categories:", response.data.map(cat => cat.title));
                 }
             } catch (error) {
                 console.error("Error fetching categories", error);
@@ -87,9 +80,14 @@ const AddExpense = ({ open, setOpen, updateBalance }) => {
             setOpen(false);
 
             updateBalance(); // Update balance after adding expense
+            handleUpdate(); // Trigger re-render in parent component
         } catch (error) {
             console.error("Error adding expense", error);
         }
+        handleRefresh();
+    };
+    const handleRefresh = () => {
+        window.location.reload();
     };
 
     return (
@@ -121,6 +119,7 @@ const AddExpense = ({ open, setOpen, updateBalance }) => {
                         type="number"
                         value={expenseData.amount}
                         onChange={(e) => setExpenseData({ ...expenseData, amount: e.target.value })}
+                        sx={{ mt:2 }}
                     />
                     <TextField
                         label="Spent Where"
@@ -129,18 +128,25 @@ const AddExpense = ({ open, setOpen, updateBalance }) => {
                         variant="outlined"
                         value={expenseData.spentWhere}
                         onChange={(e) => setExpenseData({ ...expenseData, spentWhere: e.target.value })}
+                        sx={{ mt:2 }}
                     />
 
                     <Autocomplete
                         freeSolo
                         options={categories}
                         loading={loading}
-                        value={expenseData.category}
-                        onChange={(event, newValue) => {
-                            setExpenseData({ ...expenseData, category: newValue });
+                        value={expenseData.category || ""}
+                        onInputChange={(event, newValue) => {
+                            console.log("Typed category:", newValue);
+                            setExpenseData((prev) => ({ ...prev, category: newValue }));
                         }}
+                        onChange={(event, newValue) => {
+                            console.log("Selected category:", newValue);
+                            setExpenseData((prev) => ({ ...prev, category: newValue || "" }));
+                        }}
+                        getOptionLabel={(option) => option || ""}
                         renderInput={(params) => (
-                            <TextField {...params} label="Category" variant="outlined" />
+                            <TextField {...params} label="Category" variant="outlined" sx={{ mt:2 }} />
                         )}
                     />
 
@@ -153,12 +159,13 @@ const AddExpense = ({ open, setOpen, updateBalance }) => {
                         rows={3}
                         value={expenseData.description}
                         onChange={(e) => setExpenseData({ ...expenseData, description: e.target.value })}
+                        sx={{ mt:2 }}
                     />
 
                     <Box display="flex" justifyContent="space-between" mt={3}>
                         <Button
                             variant="contained"
-                            sx={{ flex: 1, borderRadius: 2, mr: 1.5, backgroundColor:"#3675ff"}}
+                            sx={{ flex: 1, borderRadius: 2, mr: 1.5, backgroundColor: "#3675ff" }}
                             onClick={handleSubmitClick}
                         >
                             Next
@@ -199,19 +206,18 @@ const AddExpense = ({ open, setOpen, updateBalance }) => {
                         <Button
                             variant="contained"
                             onClick={() => handleConfirmExpense("debited")}
-                            sx={{ backgroundColor: "#ec2d2d", borderRadius: 3, justifySelf:"flex-end", alignSelf:"flex-end" }}
+                            sx={{ backgroundColor: "#ec2d2d", borderRadius: 3 }}
                         >
                             Debited
                         </Button>
                         <Button
                             variant="contained"
                             onClick={() => handleConfirmExpense("credited")}
-                            sx={{ backgroundColor: "#00b34f", borderRadius: 3, justifySelf:"flex-end", alignSelf:"flex-end" }}
+                            sx={{ backgroundColor: "#00b34f", borderRadius: 3 }}
                         >
                             Credited
                         </Button>
                     </Box>
-
                 </Box>
             </Modal>
         </ThemeProvider>
