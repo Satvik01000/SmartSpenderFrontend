@@ -5,7 +5,7 @@ import BaseUrl from "../../util/BaseUrl";
 import {jwtDecode} from "jwt-decode";
 import darkTheme from "../../util/darkTheme";
 
-const AddExpense = ({ open, setOpen}) => {
+const AddExpense = ({ open, setOpen, updateBalance, handleUpdate }) => {
     const [expenseData, setExpenseData] = useState({
         amount: "",
         spentWhere: "",
@@ -79,9 +79,15 @@ const AddExpense = ({ open, setOpen}) => {
             setConfirmModal(false);
             setOpen(false);
 
+            updateBalance(); // Update balance after adding expense
+            handleUpdate(); // Trigger re-render in parent component
         } catch (error) {
             console.error("Error adding expense", error);
         }
+        handleRefresh();
+    };
+    const handleRefresh = () => {
+        window.location.reload();
     };
 
     return (
@@ -113,6 +119,7 @@ const AddExpense = ({ open, setOpen}) => {
                         type="number"
                         value={expenseData.amount}
                         onChange={(e) => setExpenseData({ ...expenseData, amount: e.target.value })}
+                        sx={{ mt:2 }}
                     />
                     <TextField
                         label="Spent Where"
@@ -121,6 +128,7 @@ const AddExpense = ({ open, setOpen}) => {
                         variant="outlined"
                         value={expenseData.spentWhere}
                         onChange={(e) => setExpenseData({ ...expenseData, spentWhere: e.target.value })}
+                        sx={{ mt:2 }}
                     />
 
                     <Autocomplete
@@ -138,10 +146,9 @@ const AddExpense = ({ open, setOpen}) => {
                         }}
                         getOptionLabel={(option) => option || ""}
                         renderInput={(params) => (
-                            <TextField {...params} label="Category" variant="outlined" />
+                            <TextField {...params} label="Category" variant="outlined" sx={{ mt:2 }} />
                         )}
                     />
-
 
                     <TextField
                         label="Description"
@@ -152,12 +159,13 @@ const AddExpense = ({ open, setOpen}) => {
                         rows={3}
                         value={expenseData.description}
                         onChange={(e) => setExpenseData({ ...expenseData, description: e.target.value })}
+                        sx={{ mt:2 }}
                     />
 
                     <Box display="flex" justifyContent="space-between" mt={3}>
                         <Button
                             variant="contained"
-                            sx={{ flex: 1, borderRadius: 2, mr: 1.5, backgroundColor:"#3675ff"}}
+                            sx={{ flex: 1, borderRadius: 2, mr: 1.5, backgroundColor: "#3675ff" }}
                             onClick={handleSubmitClick}
                         >
                             Next
@@ -198,19 +206,18 @@ const AddExpense = ({ open, setOpen}) => {
                         <Button
                             variant="contained"
                             onClick={() => handleConfirmExpense("debited")}
-                            sx={{ backgroundColor: "#ec2d2d", borderRadius: 3, justifySelf:"flex-end", alignSelf:"flex-end" }}
+                            sx={{ backgroundColor: "#ec2d2d", borderRadius: 3 }}
                         >
                             Debited
                         </Button>
                         <Button
                             variant="contained"
                             onClick={() => handleConfirmExpense("credited")}
-                            sx={{ backgroundColor: "#00b34f", borderRadius: 3, justifySelf:"flex-end", alignSelf:"flex-end" }}
+                            sx={{ backgroundColor: "#00b34f", borderRadius: 3 }}
                         >
                             Credited
                         </Button>
                     </Box>
-
                 </Box>
             </Modal>
         </ThemeProvider>
