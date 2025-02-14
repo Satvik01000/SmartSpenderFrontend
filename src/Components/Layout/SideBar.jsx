@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Box, List, ListItem, Avatar, Typography, Button, Divider } from "@mui/material";
+import { Box, Avatar, Typography, Button, Divider } from "@mui/material";
 import LogoutButton from "../Auth/LogoutButton";
 import { useNavigate, useLocation } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import axios from "axios";
 import BaseUrl from "../../util/BaseUrl";
 
-const SideBar = () => {
+const SideBar = (showMonthlyAnalysis) => {
     const navigate = useNavigate();
     const location = useLocation();
     const [name, setName] = useState("Name");
@@ -44,7 +44,7 @@ const SideBar = () => {
             sx={{
                 width: "20vw",
                 height: "100vh",
-                background: "linear-gradient(180deg, #121212, #1e1e1e)", // Darker gradient to match homepage
+                background: "linear-gradient(180deg, #121212, #1e1e1e)",
                 color: "white",
                 display: "flex",
                 flexDirection: "column",
@@ -58,40 +58,41 @@ const SideBar = () => {
                 {name}
             </Typography>
 
-            <List sx={{ width: "100%" }}>
+            {/* Buttons replacing List */}
+            <Box sx={{ width: "100%", display: "flex", flexDirection: "column", gap: 1, px: 2 }}>
                 {menuItems.map((item) => (
-                    <ListItem key={item.path} disablePadding>
-                        <Button
-                            variant="text"
-                            sx={{
-                                width: "100%",
-                                height: 50,
-                                color: location.pathname === item.path ? "black" : "#B0BEC5",
-                                backgroundColor: location.pathname === item.path ? "rgba(255,145,0,0.94)" : "transparent",
-                                borderRadius: 3,
-                                fontSize: 16,
-                                textTransform: "none",
-                                fontWeight: location.pathname === item.path ? "bold" : "normal",
-                                "&:hover": {
-                                    backgroundColor: "rgba(255,145,0,0.94)",
-                                    color: "white",
-                                },
-                                transition: "0.3s ease",
-                            }}
-                            onClick={() => navigate(item.path)}
-                        >
-                            {item.label}
-                        </Button>
-                    </ListItem>
+                    <Button
+                        key={item.path}
+                        fullWidth
+                        variant={location.pathname === item.path ? "contained" : "text"}
+                        sx={{
+                            height: 50,
+                            color: location.pathname === item.path ? "black" : "#B0BEC5",
+                            backgroundColor: location.pathname === item.path ? "rgba(255,145,0,0.94)" : "transparent",
+                            borderRadius: 3,
+                            fontSize: 16,
+                            textTransform: "none",
+                            fontWeight: location.pathname === item.path ? "bold" : "normal",
+                            "&:hover": {
+                                backgroundColor: "rgba(255,145,0,0.94)",
+                                color: "white",
+                            },
+                            transition: "0.3s ease",
+                        }}
+                        onClick={() => {
+                            navigate(item.path)}
+                        }
+                    >
+                        {item.label}
+                    </Button>
                 ))}
-            </List>
+            </Box>
 
             <Divider sx={{ width: "80%", marginY: 2, bgcolor: "#505050" }} />
 
-            <Box sx={{ marginTop: "auto", width: "100%", paddingBottom: 3 }}>
-                <ListItem>
-                    <LogoutButton/>
-                </ListItem>
+            {/* Logout Button at the bottom */}
+            <Box sx={{ marginTop: "auto", width: "100%", paddingBottom: 3, px: 2 }}>
+                <LogoutButton />
             </Box>
         </Box>
     );

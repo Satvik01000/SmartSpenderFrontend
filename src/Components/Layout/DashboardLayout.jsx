@@ -14,7 +14,6 @@ const DashboardLayout = ({ children }) => {
         >
             {/* Sidebar on the extreme left */}
             <SideBar />
-
             {/* Main Content Area */}
             <Box
                 sx={{

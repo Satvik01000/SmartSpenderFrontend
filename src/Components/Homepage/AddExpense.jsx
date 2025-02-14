@@ -122,7 +122,7 @@ const AddExpense = ({ open, setOpen, updateBalance, handleUpdate }) => {
                         sx={{ mt:2 }}
                     />
                     <TextField
-                        label="Spent Where"
+                        label="Spent or Got from Where"
                         fullWidth
                         margin="dense"
                         variant="outlined"
