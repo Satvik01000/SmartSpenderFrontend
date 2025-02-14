@@ -7,6 +7,7 @@ import { Box, Card, CircularProgress, Typography, Button, ButtonGroup } from "@m
 import {Chart as ChartJS, BarElement, CategoryScale, LinearScale, Title, Tooltip, Legend, PointElement, LineElement} from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import DashboardLayout from "../Layout/DashboardLayout";
+import TotalDebitedCreditedGrid from "./ReportDataGrid/TotalDebitedCreditedGridExpense";
 
 // Register Chart.js components
 ChartJS.register(BarElement, CategoryScale, LinearScale, Title, Tooltip, Legend, PointElement, LineElement);
@@ -99,7 +100,11 @@ const MonthlyReport = () => {
 
     // Extract daily spend data based on selected type
     const dailyFiltered = dailySpend.filter(item => item[2] === selectedType);
-    const dailyLabels = dailyFiltered.map((item) => new Date(item[1]).toLocaleDateString());
+    const dailyLabels = dailyFiltered.map((item) => {
+        const date = new Date(item[1]);
+        return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
+    });
+
     const dailyValues = dailyFiltered.map((item) => item[0]);
 
     const dailyChartData = {
@@ -148,6 +153,7 @@ const MonthlyReport = () => {
 
     return (
         <DashboardLayout>
+            <TotalDebitedCreditedGrid/>
             <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4, padding: 3 }}>
                 <Card sx={{ width: "90%", maxWidth: 900, padding: 3, borderRadius: 3, backgroundColor: "#424141", boxShadow: "0 4px 10px rgba(0, 0, 0, 0.3)", color: "white" }}>
                     <Typography variant="h5" sx={{ mb: 2, textAlign: "center" }}>Category-wise Monthly Expense Report</Typography>
