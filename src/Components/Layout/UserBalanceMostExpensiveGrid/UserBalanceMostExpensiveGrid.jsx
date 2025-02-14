@@ -51,8 +51,8 @@ const UserBalanceMostExpensiveGrid = () => {
                     }}
                 >
                     <CardContent>
-                        <Typography variant="h6" sx={{ color: "#ff5d5d", fontWeight: "bold" }}>
-                            Most Expensive Purchase
+                        <Typography variant="h6" sx={{ color: "#ff5d5d", fontWeight: "bold", fontSize:21 }}>
+                            Most Expensive Purchase this month
                         </Typography>
                         <Typography variant="h3" sx={{ color: "white", fontWeight: "bold", mt: 1 }}>
                             <MostExpensivePurchase />
@@ -62,6 +62,6 @@ const UserBalanceMostExpensiveGrid = () => {
             </Grid>
         </Grid>
     );
-};
+}
 
 export default UserBalanceMostExpensiveGrid;
