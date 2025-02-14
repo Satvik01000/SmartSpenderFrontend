@@ -1,5 +1,5 @@
 import Heading from "../../common/Heading";
-import UserBalanceMostExpensiveGrid from "../Layout/UserBalanceMostExpensiveGrid/UserBalanceMostExpensiveGrid";
+import UserBalanceAvgSpendGrid from "./HomepageDataGrid/UserBalanceAvgSpendGrid";
 import ExpenseTable from "./ExpenseTable";
 import SeeTransactions from "./SeeTransactions";
 import MonthlyReport from "../MonthlyReport/MonthlyReport";
@@ -12,7 +12,7 @@ const HomepageContent = ({ showAllTransactions, expenses, showMonthlyAnalysis })
     return (
         <>
             <Heading />
-            <UserBalanceMostExpensiveGrid />
+            <UserBalanceAvgSpendGrid />
             <ExpenseTable expenses={expenses} />
         </>
     );

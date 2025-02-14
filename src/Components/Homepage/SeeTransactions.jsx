@@ -67,7 +67,7 @@ const SeeTransactions = () => {
             <Stack direction="row" spacing={2} justifyContent="flex-end" sx={{ mt: 2, mr: 3 }}>
                 <Button
                     variant="contained"
-                    color="secondary"
+                    color="primary"
                     onClick={handlePrevPage}
                     disabled={offset === 0}
                 >

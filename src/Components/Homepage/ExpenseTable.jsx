@@ -1,15 +1,5 @@
 import React from "react";
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    Paper,
-    Typography,
-    Chip
-} from "@mui/material";
+import {Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, Chip} from "@mui/material";
 
 const ExpenseTable = ({ expenses }) => {
     return (
@@ -21,7 +11,7 @@ const ExpenseTable = ({ expenses }) => {
                 <Table>
                     <TableHead>
                         <TableRow sx={{ backgroundColor: "rgba(255,145,0,0.94)" }}>
-                            {['Date', 'Amount (₹)', 'Category', 'Where', 'Description'].map((header) => (
+                            {['Date', 'Amount (₹)', 'Category', 'Where', 'Description', 'Time'].map((header) => (
                                 <TableCell key={header} sx={{ color: "black", fontSize: 18, fontWeight: "bold" }}>
                                     {header}
                                 </TableCell>
@@ -39,7 +29,7 @@ const ExpenseTable = ({ expenses }) => {
                                     }}
                                 >
                                     <TableCell sx={{ color: "white" }}>
-                                        {new Date(expense.date).toLocaleDateString()}
+                                        {new Date(expense.date).toLocaleDateString('en-Gb')}
                                     </TableCell>
                                     <TableCell>
                                         <Chip
@@ -58,6 +48,9 @@ const ExpenseTable = ({ expenses }) => {
                                     </TableCell>
                                     <TableCell sx={{ color: "white" }}>
                                         {expense.description}
+                                    </TableCell>
+                                    <TableCell sx={{ color: "white" }}>
+                                        {new Date(expense.date).toLocaleTimeString()}
                                     </TableCell>
                                 </TableRow>
                             ))
