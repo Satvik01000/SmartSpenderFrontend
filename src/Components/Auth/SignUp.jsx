@@ -15,9 +15,12 @@ const SignUp = () => {
     const [salary, setSalary] = useState("");
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
+    const [usernameError, setUsernameError] = useState(false); // New state
 
     const handleSignUp = async () => {
-        setLoading(true); // Start loading
+        setLoading(true);
+        setUsernameError(false); // Reset error state
+
         try {
             const signUpResponse = await axios.post(`${BaseUrl}/user/sign-up`, {
                 name,
@@ -31,9 +34,15 @@ const SignUp = () => {
                 navigate("/");
             }
         } catch (err) {
-            setError(err.response?.data?.message || "An error occurred. Please try again.");
+            const errorMessage = err.response?.data?.message || "An error occurred. Please try again.";
+            setError(errorMessage);
+
+            // Check if the error is due to username unavailability
+            if (errorMessage.toLowerCase().includes("username")) {
+                setUsernameError(true);
+            }
         } finally {
-            setLoading(false); // Stop loading
+            setLoading(false);
         }
     };
 
@@ -63,10 +72,8 @@ const SignUp = () => {
                             position: "relative"
                         }}
                     >
-                        {/* Loading bar at the top of the signup box */}
                         {loading && <LinearProgress sx={{ position: "absolute", top: 0, left: 0, width: "100%", borderRadius: "7px 7px 0 0" }} />}
 
-                        {/* SignUp form container - apply blur when loading */}
                         <Box sx={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", filter: loading ? "blur(3px)" : "none", pointerEvents: loading ? "none" : "auto", transition: "filter 0.3s ease-in-out" }}>
                             <Box sx={{ display: "flex", alignItems: "center", alignSelf: "flex-start", mb: 3 }}>
                                 <img src={Logo} alt="Logo" style={{ width: 90, height: 80, marginRight: 8 }} />
@@ -97,6 +104,8 @@ const SignUp = () => {
                                 fullWidth
                                 value={username}
                                 onChange={(e) => setUsername(e.target.value)}
+                                error={usernameError} // Turns red if true
+                                helperText={usernameError ? "Username not available" : ""}
                                 sx={{ mt: 3 }}
                             />
                             <TextField
@@ -137,7 +146,7 @@ const SignUp = () => {
                                 onChange={(e) => setSalary(e.target.value)}
                                 sx={{ mb: 3 }}
                             />
-                            {error && <Typography color="error">{error}</Typography>}
+                            {error && !usernameError && <Typography color="error">{error}</Typography>}
                             <Button
                                 variant="contained"
                                 sx={{

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import DashboardLayout from "../Layout/DashboardLayout";
+import DashboardLayout from "../../common/DashboardLayout";
 import AddExpense from "./AddExpense";
 import useTokenValidation from "../Auth/TokenValidation";
 import HomepageContent from "./HomepageContent";

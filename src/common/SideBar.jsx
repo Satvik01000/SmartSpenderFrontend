@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Box, Avatar, Typography, Button, Divider } from "@mui/material";
-import LogoutButton from "../Auth/LogoutButton";
+import LogoutButton from "../Components/Auth/LogoutButton";
 import { useNavigate, useLocation } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import axios from "axios";
-import BaseUrl from "../../util/BaseUrl";
+import BaseUrl from "../util/BaseUrl";
 
 const SideBar = (showMonthlyAnalysis) => {
     const navigate = useNavigate();

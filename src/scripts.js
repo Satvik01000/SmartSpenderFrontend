@@ -6,6 +6,7 @@ import Homepage from "./Components/Homepage/Homepage";
 import SignUp from "./Components/Auth/SignUp";
 import SeeTransactions from "./Components/Homepage/SeeTransactions";
 import MonthlyReport from "./Components/MonthlyReport/MonthlyReport";
+import Settings from "./Settings/Settings";
 
 const Scripts = () => {
     return (
@@ -16,6 +17,7 @@ const Scripts = () => {
                 <Route path="/sign-up" element={<SignUp/>}/>
                 <Route path="/transactions" element={<SeeTransactions/>}/>
                 <Route path="/monthly-analysis" element={<MonthlyReport/>}/>
+                <Route path="/settings" element={<Settings />}/>
             </Routes>
         </Router>
     );

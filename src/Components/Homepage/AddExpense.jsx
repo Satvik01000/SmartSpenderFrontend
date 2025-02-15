@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Box, Button, Modal, TextField, Typography, Autocomplete, ThemeProvider } from "@mui/material";
 import axios from "axios";
 import BaseUrl from "../../util/BaseUrl";
-import {jwtDecode} from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 import darkTheme from "../../util/darkTheme";
 
 const AddExpense = ({ open, setOpen, updateBalance, handleUpdate }) => {
@@ -19,22 +19,28 @@ const AddExpense = ({ open, setOpen, updateBalance, handleUpdate }) => {
 
     useEffect(() => {
         const token = localStorage.getItem("token");
-        const fetchCategories = async () => {
+        const fetchUserAndCategories = async () => {
             try {
+                const username = jwtDecode(token).sub;
+                const userIdResponse = await axios.get(`${BaseUrl}/user/${username}`);
+                const userId = userIdResponse.data;
+                console.log(userId);
                 const response = await axios.get(`${BaseUrl}/category`, {
-                    headers: { Authorization: `Bearer ${token}` }
+                    params:{userId},
+                    headers: { Authorization: `Bearer ${token}` },
                 });
-                if (response.data) {
+
+                if (response.data && Array.isArray(response.data)) {
                     setCategories(response.data.map(cat => cat.title));
                     console.log("Fetched categories:", response.data.map(cat => cat.title));
                 }
             } catch (error) {
-                console.error("Error fetching categories", error);
+                console.error("Error fetching categories or user ID", error);
             } finally {
                 setLoading(false);
             }
         };
-        fetchCategories();
+        fetchUserAndCategories();
     }, []);
 
     const handleSubmitClick = () => {
@@ -44,26 +50,25 @@ const AddExpense = ({ open, setOpen, updateBalance, handleUpdate }) => {
     const handleConfirmExpense = async (selectedType) => {
         try {
             const token = localStorage.getItem("token");
-            const username = jwtDecode(token).sub;
-            const userIdResponse = await axios.get(`${BaseUrl}/user/${username}`, {
-                headers: { Authorization: `Bearer ${token}` },
-            });
-            const userId = userIdResponse.data;
 
+            // If the category does not exist, create it
             if (!categories.includes(expenseData.category)) {
-                await axios.post(`${BaseUrl}/category`, { title: expenseData.category }, {
-                    headers: { Authorization: `Bearer ${token}` }
-                });
+                await axios.post(
+                    `${BaseUrl}/category`,
+                    { title: expenseData.category, user: { id: userId } },
+                    { headers: { Authorization: `Bearer ${token}` } }
+                );
                 setCategories(prev => [...prev, expenseData.category]);
             }
 
+            // Submit expense with user ID and category association
             await axios.post(
                 `${BaseUrl}/expenses`,
                 {
                     amount: expenseData.amount,
                     spentWhere: expenseData.spentWhere,
                     type: selectedType,
-                    category: { title: expenseData.category },
+                    category: { title: expenseData.category, user: { id: userId } },
                     user: { id: userId },
                     description: expenseData.description,
                 },
@@ -84,10 +89,6 @@ const AddExpense = ({ open, setOpen, updateBalance, handleUpdate }) => {
         } catch (error) {
             console.error("Error adding expense", error);
         }
-        handleRefresh();
-    };
-    const handleRefresh = () => {
-        window.location.reload();
     };
 
     return (

@@ -6,7 +6,7 @@ import {jwtDecode} from "jwt-decode";
 import { Box, Card, CircularProgress, Typography, Button, ButtonGroup } from "@mui/material";
 import {Chart as ChartJS, BarElement, CategoryScale, LinearScale, Title, Tooltip, Legend, PointElement, LineElement} from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
-import DashboardLayout from "../Layout/DashboardLayout";
+import DashboardLayout from "../../common/DashboardLayout";
 import TotalDebitedCreditedGrid from "./ReportDataGrid/TotalDebitedCreditedGridExpense";
 
 // Register Chart.js components
