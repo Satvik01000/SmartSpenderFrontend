@@ -1,14 +1,13 @@
-import Grid from "@mui/material/Grid";
+import Grid2 from "@mui/material/Grid2";
 import { Card, CardContent, Typography, Box } from "@mui/material";
 import CurrentBalance from "./CurrentBalance";
-import MostExpensivePurchase from "../../MonthlyReport/ReportDataGrid/MostExpensivePurchase";
 import React from "react";
 import AverageSpend from "./AverageSpend";
 
 const UserBalanceAvgSpendGrid = () => {
     return (
-        <Grid container spacing={3} sx={{ marginBottom: 2, justifyContent: "center" }}>
-            <Grid item xs={12} sm={6} sx={{ display: "flex", justifyContent: "center" }}>
+        <Grid2 container spacing={3} sx={{ marginBottom: 2, justifyContent: "center" }}>
+            <Grid2 item xs={12} sm={6} sx={{ display: "flex", justifyContent: "center" }}>
                 <Card
                     sx={{
                         borderRadius: 4,
@@ -32,10 +31,10 @@ const UserBalanceAvgSpendGrid = () => {
                         </Typography>
                     </CardContent>
                 </Card>
-            </Grid>
+            </Grid2>
 
             {/* Most Expensive Purchase Card */}
-            <Grid item xs={12} sm={6} sx={{ display: "flex", justifyContent: "center" }}>
+            <Grid2 item xs={12} sm={6} sx={{ display: "flex", justifyContent: "center" }}>
                 <Card
                     sx={{
                         borderRadius: 4,
@@ -59,8 +58,8 @@ const UserBalanceAvgSpendGrid = () => {
                         </Typography>
                     </CardContent>
                 </Card>
-            </Grid>
-        </Grid>
+            </Grid2>
+        </Grid2>
     );
 }
 

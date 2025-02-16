@@ -105,7 +105,6 @@ const SignUp = () => {
                                 value={username}
                                 onChange={(e) => setUsername(e.target.value)}
                                 error={usernameError} // Turns red if true
-                                helperText={usernameError ? "Username not available" : ""}
                                 sx={{ mt: 3 }}
                             />
                             <TextField

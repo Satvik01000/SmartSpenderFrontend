@@ -5,7 +5,7 @@ import BaseUrl from "../../util/BaseUrl";
 import { jwtDecode } from "jwt-decode";
 import darkTheme from "../../util/darkTheme";
 
-const AddExpense = ({ open, setOpen, updateBalance, handleUpdate }) => {
+const AddExpense = ({ open, setOpen}) => {
     const [expenseData, setExpenseData] = useState({
         amount: "",
         spentWhere: "",
@@ -16,9 +16,9 @@ const AddExpense = ({ open, setOpen, updateBalance, handleUpdate }) => {
     const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(true);
     const [confirmModal, setConfirmModal] = useState(false);
+    const token = localStorage.getItem("token");
 
     useEffect(() => {
-        const token = localStorage.getItem("token");
         const fetchUserAndCategories = async () => {
             try {
                 const username = jwtDecode(token).sub;
@@ -47,10 +47,14 @@ const AddExpense = ({ open, setOpen, updateBalance, handleUpdate }) => {
         setConfirmModal(true);
     };
 
+    const handleRefresh = () => {
+        window.location.reload();
+    };
     const handleConfirmExpense = async (selectedType) => {
         try {
-            const token = localStorage.getItem("token");
-
+            const username = jwtDecode(token).sub;
+            const userIdResponse = await axios.get(`${BaseUrl}/user/${username}`);
+            const userId = userIdResponse.data;
             // If the category does not exist, create it
             if (!categories.includes(expenseData.category)) {
                 await axios.post(
@@ -84,11 +88,10 @@ const AddExpense = ({ open, setOpen, updateBalance, handleUpdate }) => {
             setConfirmModal(false);
             setOpen(false);
 
-            updateBalance(); // Update balance after adding expense
-            handleUpdate(); // Trigger re-render in parent component
         } catch (error) {
             console.error("Error adding expense", error);
         }
+        handleRefresh();
     };
 
     return (
